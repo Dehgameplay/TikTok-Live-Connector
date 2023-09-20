@@ -4,9 +4,10 @@ A Node.js library to receive live stream events such as comments and gifts in re
 ### Example Project: [https://tiktok-chat-reader.zerody.one/](https://tiktok-chat-reader.zerody.one/)
 
 Do you prefer other programming languages?
-- **Python** rewrite: [TikTokLive](https://github.com/isaackogan/TikTokLive) by [@isaackogan](https://github.com/isaackogan)
-- **Go** rewrite: [GoTikTokLive](https://github.com/Davincible/gotiktoklive) by [@Davincible](https://github.com/Davincible)
-- **C#** rewrite: [TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp) by [@frankvHoof93](https://github.com/frankvHoof93)
+
+-   **Python** rewrite: [TikTokLive](https://github.com/isaackogan/TikTokLive) by [@isaackogan](https://github.com/isaackogan)
+-   **Go** rewrite: [GoTikTokLive](https://github.com/Davincible/gotiktoklive) by [@Davincible](https://github.com/Davincible)
+-   **C#** rewrite: [TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp) by [@frankvHoof93](https://github.com/frankvHoof93)
 
 **NOTE:** This is not an official API. It's a reverse engineering project.
 
@@ -15,16 +16,18 @@ Do you prefer other programming languages?
 > **UPDATE**:<br>Due to a change on the part of TikTok, versions prior **v0.9.23** are no longer functional. If you are using one of these versions, upgrade to the latest version using the `npm update` command.
 
 #### Overview
-- [Getting started](#getting-started)
-- [Params and options](#params-and-options)
-- [Methods](#methods)
-- [Events](#events)
-- [Examples](#examples)
-- [Contributing](#contributing)
+
+-   [Getting started](#getting-started)
+-   [Params and options](#params-and-options)
+-   [Methods](#methods)
+-   [Events](#events)
+-   [Examples](#examples)
+-   [Contributing](#contributing)
 
 ## Getting started
 
 1. Install the package via NPM
+
 ```
 npm i tiktok-live-connector
 ```
@@ -35,28 +38,31 @@ npm i tiktok-live-connector
 const { WebcastPushConnection } = require('tiktok-live-connector');
 
 // Username of someone who is currently live
-let tiktokUsername = "officialgeilegisela";
+let tiktokUsername = 'officialgeilegisela';
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
 
 // Connect to the chat (await can be used as well)
-tiktokLiveConnection.connect().then(state => {
-    console.info(`Connected to roomId ${state.roomId}`);
-}).catch(err => {
-    console.error('Failed to connect', err);
-})
+tiktokLiveConnection
+    .connect()
+    .then((state) => {
+        console.info(`Connected to roomId ${state.roomId}`);
+    })
+    .catch((err) => {
+        console.error('Failed to connect', err);
+    });
 
 // Define the events that you want to handle
 // In this case we listen to chat messages (comments)
-tiktokLiveConnection.on('chat', data => {
+tiktokLiveConnection.on('chat', (data) => {
     console.log(`${data.uniqueId} (userId:${data.userId}) writes: ${data.comment}`);
-})
+});
 
 // And here we receive gifts sent to the streamer
-tiktokLiveConnection.on('gift', data => {
+tiktokLiveConnection.on('gift', (data) => {
     console.log(`${data.uniqueId} (userId:${data.userId}) sends ${data.giftId}`);
-})
+});
 
 // ...and more events described in the documentation below
 ```
@@ -68,11 +74,13 @@ To create a new `WebcastPushConnection` object the following parameters are requ
 `WebcastPushConnection(uniqueId, [options])`
 
 | Param Name | Required | Description |
-| ---------- | -------- | ----------- |
-| uniqueId   | Yes | The unique username of the broadcaster. You can find this name in the URL.<br>Example: `https://www.tiktok.com/@officialgeilegisela/live` => `officialgeilegisela` |
-| options  | No | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`processInitialData` (default: `true`) <br> Define if you want to process the initital data which includes old messages of the last seconds.<br><br>`fetchRoomInfoOnConnect` (default: `true`) <br> Define if you want to fetch all room information on [`connect()`](#methods). If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `roomInfo` attribute. You can also manually retrieve the room info (even in an unconnected state) using the [`getRoomInfo()`](#methods) function.<br><br>`enableExtendedGiftInfo` (default: `false`) <br> Define if you want to receive extended information about gifts like gift name, cost and images. This information will be provided at the [gift event](#gift). <br><br>`enableWebsocketUpgrade` (default: `true`) <br> Define if you want to use a WebSocket connection instead of request polling if TikTok offers it. <br><br>`requestPollingIntervalMs` (default: `1000`) <br> Request polling interval if WebSocket is not used.<br><br>`sessionId` (default: `null`) <br> Here you can specify the current Session ID of your TikTok account (**sessionid** cookie value) if you want to send automated chat messages via the [`sendMessage()`](#methods) function. See [Example](#send-chat-messages)<br><br>`clientParams` (default: `{}`) <br> Custom client params for Webcast API.<br><br>`requestHeaders` (default: `{}`) <br> Custom request headers passed to [axios](https://github.com/axios/axios).<br><br>`websocketHeaders` (default: `{}`) <br> Custom websocket headers passed to [websocket.client](https://github.com/theturtle32/WebSocket-Node). <br><br>`requestOptions` (default: `{}`) <br> Custom request options passed to [axios](https://github.com/axios/axios). Here you can specify an `httpsAgent` to use a proxy and a `timeout` value. See [Example](#connect-via-proxy). <br><br>`websocketOptions` (default: `{}`) <br> Custom websocket options passed to [websocket.client](https://github.com/theturtle32/WebSocket-Node). Here you can specify an `agent` to use a proxy and a `timeout` value. See [Example](#connect-via-proxy). |
+| Param Name | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| uniqueId   | Yes      | The unique username of the broadcaster. You can find this name in the URL.<br>Example: `https://www.tiktok.com/@officialgeilegisela/live` => `officialgeilegisela`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| options    | No       | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`processInitialData` (default: `true`) <br> Define if you want to process the initital data which includes old messages of the last seconds.<br><br>`fetchRoomInfoOnConnect` (default: `true`) <br> Define if you want to fetch all room information on [`connect()`](#methods). If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `roomInfo` attribute. You can also manually retrieve the room info (even in an unconnected state) using the [`getRoomInfo()`](#methods) function.<br><br>`enableExtendedGiftInfo` (default: `false`) <br> Define if you want to receive extended information about gifts like gift name, cost and images. This information will be provided at the [gift event](#gift). <br><br>`enableWebsocketUpgrade` (default: `true`) <br> Define if you want to use a WebSocket connection instead of request polling if TikTok offers it. <br><br>`requestPollingIntervalMs` (default: `1000`) <br> Request polling interval if WebSocket is not used.<br><br>`sessionId` (default: `null`) <br> Here you can specify the current Session ID of your TikTok account (**sessionid** cookie value) if you want to send automated chat messages via the [`sendMessage()`](#methods) function. See [Example](#send-chat-messages)<br><br>`clientParams` (default: `{}`) <br> Custom client params for Webcast API.<br><br>`requestHeaders` (default: `{}`) <br> Custom request headers passed to [axios](https://github.com/axios/axios).<br><br>`websocketHeaders` (default: `{}`) <br> Custom websocket headers passed to [websocket.client](https://github.com/theturtle32/WebSocket-Node). <br><br>`requestOptions` (default: `{}`) <br> Custom request options passed to [axios](https://github.com/axios/axios). Here you can specify an `httpsAgent` to use a proxy and a `timeout` value. See [Example](#connect-via-proxy). <br><br>`websocketOptions` (default: `{}`) <br> Custom websocket options passed to [websocket.client](https://github.com/theturtle32/WebSocket-Node). Here you can specify an `agent` to use a proxy and a `timeout` value. See [Example](#connect-via-proxy). |
 
 Example Options:
+
 ```javascript
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, {
     processInitialData: false,
@@ -80,78 +88,83 @@ let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername, {
     enableWebsocketUpgrade: true,
     requestPollingIntervalMs: 2000,
     clientParams: {
-        "app_language": "en-US",
-        "device_platform": "web"
+        app_language: 'en-US',
+        device_platform: 'web',
     },
     requestHeaders: {
-        "headerName": "headerValue"
+        headerName: 'headerValue',
     },
     websocketHeaders: {
-        "headerName": "headerValue"
+        headerName: 'headerValue',
     },
     requestOptions: {
-        timeout: 10000
+        timeout: 10000,
     },
     websocketOptions: {
-        timeout: 10000
-    }
+        timeout: 10000,
+    },
 });
 ```
 
 ## Methods
+
 A `WebcastPushConnection` object contains the following methods.
 
-| Method Name | Description |
-| ----------- | ----------- |
-| connect     | Connects to the live stream chat.<br>Returns a `Promise` which will be resolved when the connection is successfully established. |
-| disconnect  | Disconnects the connection. |
-| getState    | Gets the current connection state including the cached room info (see below). |
-| getRoomInfo | Gets the current room info from TikTok API including streamer info, room status and statistics.<br>Returns a `Promise` which will be resolved when the API request is done.<br>*<b>Note: </b>You can call this function even if you're not connected.*<br>[Example](#retrieve-room-info) |
-| getAvailableGifts | Gets a list of all available gifts including gift name, image url, diamont cost and a lot of other information.<br>Returns a `Promise` that will be resolved when all available gifts has been retrieved from the API.<br>*<b>Note: </b>You can call this function even if you're not connected.*<br>[Example](#retrieve-available-gifts) |
-| sendMessage<br>`(text, [sessionId])` | Sends a chat message into the current live room using the provided session cookie (specified in the [constructor options](#params-and-options) or via the second function parameter).<br>Returns a `Promise` that will be resolved when the chat message has been submitted to the API.<br><br><b>WARNING: Use of this function is at your own risk. Spamming messages can lead to the suspension of your TikTok account. Be careful!</b><br>[Example](#send-chat-messages)|
+| Method Name                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| connect                              | Connects to the live stream chat.<br>Returns a `Promise` which will be resolved when the connection is successfully established.                                                                                                                                                                                                                                                                                                                                            |
+| disconnect                           | Disconnects the connection.                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| getState                             | Gets the current connection state including the cached room info (see below).                                                                                                                                                                                                                                                                                                                                                                                               |
+| getRoomInfo                          | Gets the current room info from TikTok API including streamer info, room status and statistics.<br>Returns a `Promise` which will be resolved when the API request is done.<br>_<b>Note: </b>You can call this function even if you're not connected._<br>[Example](#retrieve-room-info)                                                                                                                                                                                    |
+| getAvailableGifts                    | Gets a list of all available gifts including gift name, image url, diamont cost and a lot of other information.<br>Returns a `Promise` that will be resolved when all available gifts has been retrieved from the API.<br>_<b>Note: </b>You can call this function even if you're not connected._<br>[Example](#retrieve-available-gifts)                                                                                                                                   |
+| sendMessage<br>`(text, [sessionId])` | Sends a chat message into the current live room using the provided session cookie (specified in the [constructor options](#params-and-options) or via the second function parameter).<br>Returns a `Promise` that will be resolved when the chat message has been submitted to the API.<br><br><b>WARNING: Use of this function is at your own risk. Spamming messages can lead to the suspension of your TikTok account. Be careful!</b><br>[Example](#send-chat-messages) |
 
 ## Events
 
 A `WebcastPushConnection` object has the following events which can be handled via `.on(eventName, eventHandler)`
 
 Control Events:
-- [connected](#connected)
-- [disconnected](#disconnected)
-- [streamEnd](#streamend)
-- [rawData](#rawdata)
-- [websocketConnected](#websocketconnected)
-- [error](#error)
+
+-   [connected](#connected)
+-   [disconnected](#disconnected)
+-   [streamEnd](#streamend)
+-   [rawData](#rawdata)
+-   [websocketConnected](#websocketconnected)
+-   [error](#error)
 
 Message Events:
-- [member](#member)
-- [chat](#chat)
-- [gift](#gift)
-- [roomUser](#roomuser)
-- [like](#like)
-- [social](#social)
-- [emote](#emote)
-- [envelope](#envelope)
-- [questionNew](#questionnew)
-- [linkMicBattle](#linkmicbattle)
-- [linkMicArmies](#linkmicarmies)
-- [liveIntro](#liveintro)
-- [subscribe](#subscribe)
+
+-   [member](#member)
+-   [chat](#chat)
+-   [gift](#gift)
+-   [roomUser](#roomuser)
+-   [like](#like)
+-   [social](#social)
+-   [emote](#emote)
+-   [envelope](#envelope)
+-   [questionNew](#questionnew)
+-   [linkMicBattle](#linkmicbattle)
+-   [linkMicArmies](#linkmicarmies)
+-   [liveIntro](#liveintro)
+-   [subscribe](#subscribe)
 
 Custom Events:
-- [follow](#follow)
-- [share](#share)
+
+-   [follow](#follow)
+-   [share](#share)
 
 <br><br>
 
 ### Control Events
 
 ### `connected`
+
 Triggered when the connection is successfully established.
 
 ```javascript
-tiktokLiveConnection.on('connected', state => {
+tiktokLiveConnection.on('connected', (state) => {
     console.log('Hurray! Connected!', state);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -160,14 +173,14 @@ tiktokLiveConnection.on('connected', state => {
 {
   isConnected: true,
   upgradedToWebsocket: true,
-  roomId: '7137682087200557829',        
+  roomId: '7137682087200557829',
   roomInfo: {
     AnchorABMap: {},
     admin_user_ids: [],
-    anchor_scheduled_time_text: '',     
+    anchor_scheduled_time_text: '',
     anchor_share_text: '',
     anchor_tab_type: 7,
-    answering_question_content: '',     
+    answering_question_content: '',
     app_id: 1233,
     audio_mute: 0,
     auto_cover: 0,
@@ -176,7 +189,7 @@ tiktokLiveConnection.on('connected', state => {
     business_live: 0,
     challenge_info: '',
     client_version: 250701,
-    comment_has_text_emoji_emote: 0,    
+    comment_has_text_emoji_emote: 0,
     comment_name_mode: 0,
     commerce_info: {
       commerce_permission: 0,
@@ -532,21 +545,25 @@ tiktokLiveConnection.on('connected', state => {
   availableGifts: [] // Filled if `enableExtendedGiftInfo` set
 }
 ```
+
 </p></details>
 
 <br>
 
 ### `disconnected`
+
 Triggered when the connection gets disconnected. In that case you can call `connect()` again to have a reconnect logic. Note that you should wait a little bit before attempting a reconnect to to avoid being rate-limited.
 
 ```javascript
 tiktokLiveConnection.on('disconnected', () => {
     console.log('Disconnected :(');
-})
+});
 ```
+
 <br>
 
 ### `streamEnd`
+
 Triggered when the live stream gets terminated by the host. Will also trigger the [`disconnected`](#disconnected) event.
 
 ```javascript
@@ -557,50 +574,56 @@ tiktokLiveConnection.on('streamEnd', (actionId) => {
     if (actionId === 4) {
         console.log('Stream ended by platform moderator (ban)');
     }
-})
+});
 ```
+
 <br>
 
 ### `rawData`
+
 Triggered every time a protobuf encoded webcast message arrives. You can deserialize the binary object depending on the use case with <a href="https://www.npmjs.com/package/protobufjs">protobufjs</a>.
 
 ```javascript
 tiktokLiveConnection.on('rawData', (messageTypeName, binary) => {
     console.log(messageTypeName, binary);
-})
+});
 ```
+
 <br>
 
 ### `websocketConnected`
+
 Will be triggered as soon as a websocket connection is established. The websocket client object is passed.
 
 ```javascript
-tiktokLiveConnection.on('websocketConnected', websocketClient => {
-    console.log("Websocket:", websocketClient.connection);
-})
+tiktokLiveConnection.on('websocketConnected', (websocketClient) => {
+    console.log('Websocket:', websocketClient.connection);
+});
 ```
+
 <br>
 
 ### `error`
+
 General error event. You should handle this.
 
 ```javascript
-tiktokLiveConnection.on('error', err => {
+tiktokLiveConnection.on('error', (err) => {
     console.error('Error!', err);
-})
+});
 ```
-<br>
 
+<br>
 
 ### Message Events
 
 ### `member`
+
 Triggered every time a new viewer joins the live stream.
 
 ```javascript
-tiktokLiveConnection.on('member', data => {
     console.log(`${data.uniqueId} joins the stream!`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -655,17 +678,19 @@ tiktokLiveConnection.on('member', data => {
     label: "{0:user} joined"
 }
 ```
+
 </p></details>
 
 <br>
 
 ### `chat`
+
 Triggered every time a new chat comment arrives.
 
 ```javascript
-tiktokLiveConnection.on('chat', data => {
+tiktokLiveConnection.on('chat', (data) => {
     console.log(`${data.uniqueId} writes: ${data.comment}`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -721,17 +746,18 @@ tiktokLiveConnection.on('chat', data => {
     createTime: "1661887134718"
 }
 ```
+
 </p></details>
 <br>
 
 ### `gift`
-Triggered every time a gift arrives. You will receive additional information via the `extendedGiftInfo` attribute when you enable the [`enableExtendedGiftInfo`](#params-and-options) option. 
+
+Triggered every time a gift arrives. You will receive additional information via the `extendedGiftInfo` attribute when you enable the [`enableExtendedGiftInfo`](#params-and-options) option.
 
 > **NOTE:** Users have the capability to send gifts in a streak. This increases the `repeatCount` value until the user terminates the streak. During this time new gift events are triggered again and again with an increased `repeatCount` value. It should be noted that after the end of the streak, another gift event is triggered, which signals the end of the streak via `repeatEnd`:`true`. This applies only to gifts with `giftType`:`1`. This means that even if the user sends a `giftType`:`1` gift only once, you will receive the event twice. Once with `repeatEnd`:`false` and once with `repeatEnd`:`true`. Therefore, the event should be handled as follows:
 
-
 ```javascript
-tiktokLiveConnection.on('gift', data => {
+tiktokLiveConnection.on('gift', (data) => {
     if (data.giftType === 1 && !data.repeatEnd) {
         // Streak in progress => show only temporary
         console.log(`${data.uniqueId} is sending gift ${data.giftName} x${data.repeatCount}`);
@@ -739,9 +765,8 @@ tiktokLiveConnection.on('gift', data => {
         // Streak ended or non-streakable gift => process the gift with final repeat_count
         console.log(`${data.uniqueId} has sent gift ${data.giftName} x${data.repeatCount}`);
     }
-})
+});
 ```
-
 
 <details><summary>⚡ Show Data Structure</summary><p>
 
@@ -818,16 +843,18 @@ tiktokLiveConnection.on('gift', data => {
     receiverUserId: "7087613897129493510"
 }
 ```
+
 </p></details>
 <br>
 
 ### `roomUser`
+
 Triggered every time a statistic message arrives. This message currently contains the viewer count and a top gifter list.
 
 ```javascript
-tiktokLiveConnection.on('roomUser', data => {
+tiktokLiveConnection.on('roomUser', (data) => {
     console.log(`Viewer Count: ${data.viewerCount}`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -992,17 +1019,19 @@ tiktokLiveConnection.on('roomUser', data => {
     viewerCount: 630
 }
 ```
+
 </p></details>
 
 <br>
 
 ### `like`
+
 Triggered when a viewer sends likes to the streamer. For streams with many viewers, this event is not always triggered by TikTok.
 
 ```javascript
-tiktokLiveConnection.on('like', data => {
+tiktokLiveConnection.on('like', (data) => {
     console.log(`${data.uniqueId} sent ${data.likeCount} likes, total likes: ${data.totalLikeCount}`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1059,16 +1088,18 @@ tiktokLiveConnection.on('like', data => {
     label: "{0:user} liked the LIVE"
 }
 ```
+
 </p></details>
 <br>
 
 ### `social`
+
 Triggered every time someone shares the stream or follows the host.
 
 ```javascript
-tiktokLiveConnection.on('social', data => {
+tiktokLiveConnection.on('social', (data) => {
     console.log('social event data:', data);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1108,16 +1139,18 @@ tiktokLiveConnection.on('social', data => {
     label: "{0:user} followed the host"
 }
 ```
+
 </p></details>
 <br>
 
 ### `emote`
+
 Triggered every time a subscriber sends an emote (sticker).
 
 ```javascript
-tiktokLiveConnection.on('emote', data => {
+tiktokLiveConnection.on('emote', (data) => {
     console.log('emote received', data);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1154,16 +1187,18 @@ tiktokLiveConnection.on('emote', data => {
     emoteImageUrl: "https://p19-webcast.tiktokcdn.com/webcast-sg/61964...image"
 }
 ```
+
 </p></details>
 <br>
 
 ### `envelope`
+
 Triggered every time someone sends a treasure chest.
 
 ```javascript
-tiktokLiveConnection.on('envelope', data => {
+tiktokLiveConnection.on('envelope', (data) => {
     console.log('envelope received', data);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1200,16 +1235,18 @@ tiktokLiveConnection.on('envelope', data => {
     timestamp: 1661887422
 }
 ```
+
 </p></details>
 <br>
 
 ### `questionNew`
+
 Triggered every time someone asks a new question via the question feature.
 
 ```javascript
-tiktokLiveConnection.on('questionNew', data => {
+tiktokLiveConnection.on('questionNew', (data) => {
     console.log(`${data.uniqueId} asks ${data.questionText}`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1245,16 +1282,18 @@ tiktokLiveConnection.on('questionNew', data => {
     topGifterRank: null
 }
 ```
+
 </p></details>
 <br>
 
 ### `linkMicBattle`
+
 Triggered every time a battle starts.
 
 ```javascript
 tiktokLiveConnection.on('linkMicBattle', (data) => {
     console.log(`New Battle: ${data.battleUsers[0].uniqueId} VS ${data.battleUsers[1].uniqueId}`);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1263,52 +1302,48 @@ tiktokLiveConnection.on('linkMicBattle', (data) => {
 {
     battleUsers: [
         {
-            userId: "6901252963970515973", // Host
-            uniqueId: "growsa_fluffynation",
-            nickname: "GrowSA_FluffyNation",
-            profilePictureUrl: "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...webp",
+            userId: '6901252963970515973', // Host
+            uniqueId: 'growsa_fluffynation',
+            nickname: 'GrowSA_FluffyNation',
+            profilePictureUrl: 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...webp',
             userBadges: [],
             userDetails: {
-                profilePictureUrls: [
-                    "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...webp",
-                    "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...jpeg"
-                ]
+                profilePictureUrls: ['https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...webp', 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0...jpeg'],
             },
             isModerator: false,
             isNewGifter: false,
             isSubscriber: false,
-            topGifterRank: null
+            topGifterRank: null,
         },
         {
-            userId: "262781145296064512", // Guest
-            uniqueId: "real_martinpinkysmith",
-            nickname: "Martin Pinky Smith",
-            profilePictureUrl: "https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...webp",
+            userId: '262781145296064512', // Guest
+            uniqueId: 'real_martinpinkysmith',
+            nickname: 'Martin Pinky Smith',
+            profilePictureUrl: 'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...webp',
             userBadges: [],
             userDetails: {
-                profilePictureUrls: [
-                    "https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...webp",
-                    "https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...jpeg"
-                ]
+                profilePictureUrls: ['https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...webp', 'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/to...jpeg'],
             },
             isModerator: false,
             isNewGifter: false,
             isSubscriber: false,
-            topGifterRank: null
-        }
-    ]
+            topGifterRank: null,
+        },
+    ];
 }
 ```
+
 </p></details>
 <br>
 
 ### `linkMicArmies`
+
 Triggered every time a battle participant receives points. Contains the current status of the battle and the army that suported the group.
 
 ```javascript
 tiktokLiveConnection.on('linkMicArmies', (data) => {
     console.log('linkMicArmies', data);
-})
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1376,17 +1411,20 @@ tiktokLiveConnection.on('linkMicArmies', (data) => {
     ]
 }
 ```
+
 </p></details>
 <br>
 
 ### `liveIntro`
+
 Triggered when a live intro message appears.
 
 ```javascript
 tiktokLiveConnection.on('liveIntro', (msg) => {
     console.log(msg);
-})
+});
 ```
+
 <details><summary>⚡ Show Data Structure</summary><p>
 
 ```javascript
@@ -1436,17 +1474,19 @@ tiktokLiveConnection.on('liveIntro', (msg) => {
     topGifterRank: null
 }
 ```
+
 </p></details>
 
 <br>
 
 ### `subscribe`
+
 Triggers when a user creates a subscription.
 
 ```javascript
 tiktokLiveConnection.on('subscribe', (data) => {
-    console.log(data.uniqueId, "subscribed!");
-})
+    console.log(data.uniqueId, 'subscribed!');
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1487,21 +1527,24 @@ tiktokLiveConnection.on('subscribe', (data) => {
     label: "{0:user} just subscribed to the host"
 }
 ```
+
 </p></details>
 
 <br>
 
 ### Custom Events
+
 These events are based on message events.
 <br>
 
 ### `follow`
+
 Triggers when a user follows the streamer. Based on `social` event.
 
 ```javascript
 tiktokLiveConnection.on('follow', (data) => {
-    console.log(data.uniqueId, "followed!");
-})
+    console.log(data.uniqueId, 'followed!');
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1556,17 +1599,19 @@ tiktokLiveConnection.on('follow', (data) => {
     label: "{0:user} followed the host"
 }
 ```
+
 </p></details>
 
 <br>
 
 ### `share`
+
 Triggers when a user shares the stream. Based on `social` event.
 
 ```javascript
 tiktokLiveConnection.on('share', (data) => {
-    console.log(data.uniqueId, "shared the stream!");
-})
+    console.log(data.uniqueId, 'shared the stream!');
+});
 ```
 
 <details><summary>⚡ Show Data Structure</summary><p>
@@ -1621,84 +1666,99 @@ tiktokLiveConnection.on('share', (data) => {
     label: "{0:user} shared the live"
 }
 ```
+
 </p></details>
 
 <br>
 
 ## Examples
+
 ### Retrieve Room Info
-````javascript
+
+```javascript
 let tiktokLiveConnection = new WebcastPushConnection('@username');
 
-tiktokLiveConnection.getRoomInfo().then(roomInfo => {
-    console.log(roomInfo);
-    console.log(`Stream started timestamp: ${roomInfo.create_time}, Streamer bio: ${roomInfo.owner.bio_description}`);
-    console.log(`HLS URL: ${roomInfo.stream_url.hls_pull_url}`); // Can be played or recorded with e.g. VLC
-}).catch(err => {
-    console.error(err);
-})
-````
+tiktokLiveConnection
+    .getRoomInfo()
+    .then((roomInfo) => {
+        console.log(roomInfo);
+        console.log(`Stream started timestamp: ${roomInfo.create_time}, Streamer bio: ${roomInfo.owner.bio_description}`);
+        console.log(`HLS URL: ${roomInfo.stream_url.hls_pull_url}`); // Can be played or recorded with e.g. VLC
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+```
 
 ### Retrieve Available Gifts
-````javascript
+
+```javascript
 let tiktokLiveConnection = new WebcastPushConnection('@username');
 
-tiktokLiveConnection.getAvailableGifts().then(giftList => {
-    console.log(giftList);
-    giftList.forEach(gift => {
-        console.log(`id: ${gift.id}, name: ${gift.name}, cost: ${gift.diamond_count}`)
+tiktokLiveConnection
+    .getAvailableGifts()
+    .then((giftList) => {
+        console.log(giftList);
+        giftList.forEach((gift) => {
+            console.log(`id: ${gift.id}, name: ${gift.name}, cost: ${gift.diamond_count}`);
+        });
+    })
+    .catch((err) => {
+        console.error(err);
     });
-}).catch(err => {
-    console.error(err);
-})
-````
+```
 
 ### Send Chat Messages
-You can send chat messages via the [`sendMessage()`](#methods) function to automatically respond to chat commands for example. For this you need to provide your Session ID. 
+
+You can send chat messages via the [`sendMessage()`](#methods) function to automatically respond to chat commands for example. For this you need to provide your Session ID.
 
 To get the Session ID from your account, open TikTok in your web browser and make sure you are logged in, then press F12 to open the developer tools. Switch to the **Application** tab and select **Cookies** on the left side. Then take the value of the cookie with the name **`sessionid`**.
 
 <b>WARNING: Use of this function is at your own risk. Spamming messages can lead to the suspension of your TikTok account. Be careful!</b>
 
-````javascript
+```javascript
 let tiktokLiveConnection = new WebcastPushConnection('@username', {
-    sessionId: 'f7fbba3a57e48dd1ecd0b7b72cb27e6f' // Replace this with the Session ID of your TikTok account
+    sessionId: 'f7fbba3a57e48dd1ecd0b7b72cb27e6f', // Replace this with the Session ID of your TikTok account
 });
 
-tiktokLiveConnection.connect().catch(err => console.log(err));
+tiktokLiveConnection.connect().catch((err) => console.log(err));
 
-tiktokLiveConnection.on('chat', data => {
+tiktokLiveConnection.on('chat', (data) => {
     if (data.comment.toLowerCase() === '!dice') {
         let diceResult = Math.ceil(Math.random() * 6);
-        tiktokLiveConnection.sendMessage(`@${data.uniqueId} you rolled a ${diceResult}`).catch(err => console.error(err));
+        tiktokLiveConnection.sendMessage(`@${data.uniqueId} you rolled a ${diceResult}`).catch((err) => console.error(err));
     }
-})
-````
+});
+```
 
 ### Connect via Proxy
+
 [proxy-agent](https://www.npmjs.com/package/proxy-agent) supports `http`, `https`, `socks4` and `socks5` proxies:
-````
+
+```
 npm i proxy-agent
-````
+```
+
 You can specify if you want to use a proxy for https requests, websockets or both:
-````javascript
+
+```javascript
 const { WebcastPushConnection } = require('tiktok-live-connector');
 const ProxyAgent = require('proxy-agent');
 
 let tiktokLiveConnection = new WebcastPushConnection('@username', {
     requestOptions: {
         httpsAgent: new ProxyAgent('https://username:password@host:port'),
-        timeout: 10000 // 10 seconds
+        timeout: 10000, // 10 seconds
     },
     websocketOptions: {
         agent: new ProxyAgent('https://username:password@host:port'),
-        timeout: 10000 // 10 seconds
-    }
+        timeout: 10000, // 10 seconds
+    },
 });
 
 // Connect as usual
-````
-
+```
 
 ## Contributing
+
 Your improvements are welcome! Feel free to open an <a href="https://github.com/zerodytrash/TikTok-Live-Connector/issues">issue</a> or <a href="https://github.com/zerodytrash/TikTok-Live-Connector/pulls">pull request</a>.
